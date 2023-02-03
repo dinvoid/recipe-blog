@@ -6,6 +6,7 @@ const like=require('./routes/like')
 const express=require('express')
 const expressLayouts = require('express-ejs-layouts')
 const mongoose=require('mongoose')
+//connect-mongo
 
 const PORT=process.env.PORT
 const MONG_URI=process.env.MONG_URI
@@ -13,6 +14,8 @@ const MONG_URI=process.env.MONG_URI
 const flash = require('connect-flash')
 const session = require('express-session')
 const passport=require('passport')
+const MongoStore = require('connect-mongo')
+
 
 const app= express()
 //passport config
@@ -40,12 +43,18 @@ app.use(express.urlencoded({extended:false}))
 //express
 app.use(express.json())
 
+
 //express session
 app.use(session({
   secret: 'secret',
   resave: true,
-  saveUninitialized: true
-}))
+  saveUninitialized: true,
+   store: MongoStore.create({
+    mongoUrl: MONG_URI
+   
+  })
+
+}));
 
 //pasport middleware
 app.use(passport.initialize())

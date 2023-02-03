@@ -90,19 +90,22 @@ const loginUser=async (req,res,next)=>{
 
 }
 
-const logoutUser=async (req,res)=>{
-  req.logout(err => {
+
+
+const logoutUser =async (req, res)=>{
+  req.logout(function(err) {
     if (err) {
-      // An error occurred during the logout process
-      res.send("An error occurred while logging out.");
-    } else {
-      // The logout was successful
-      req.flash('success_msg','You are logout')
-	  res.redirect('/user/login')
-     
+      // handle error
+       res.send("An error occurred while logging out.");
     }
-  })
-}
+    req.session.destroy(function (err) {
+      res.clearCookie('connect.sid');
+      res.redirect('/user/login');
+    });
+  });
+};
+
+
 module.exports={
 	registerUser,loginUser,logoutUser
 }
