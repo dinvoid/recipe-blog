@@ -1,0 +1,308 @@
+<style>
+  @media (max-width: 768px) {
+  .sidebar {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    right: 10px;
+    z-index:10;
+    height:auto;
+   
+   
+   
+  }
+   .col-md-9 {
+      width: 100%;
+      float: none;
+      margin-top: 250px;
+     
+    }
+}
+</style>
+
+<div class="container-fluid mt-4">
+  <div class="row" >
+    <div class="col-md-3">
+      <div class="bg-light p-4 sidebar" style="position: fixed;">
+         <h4 class="font-weight-bold mb-4">Dashboard</h4>
+          <ul class="nav flex-column nav-pills mb-4">
+           <li class="nav-item">
+            <a href="#" class="nav-link active" id="home-link" data-target="page-home">Home</a>
+           </li>
+           <li class="nav-item">
+            <a href="#" class="nav-link" id="recipe-link" data-target="page-recipe">Recipe</a>
+           </li>
+           <li class="nav-item">
+            <a href="#" class="nav-link" id="community-link" data-target="page-community">Community</a>
+           </li>
+           <div class="dropdown mt-2">
+            <a class="btn bg-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" 
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Settings
+            </a>
+		        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+		          <li><a class="dropdown-item text-primary" href="/user/logout" >Logout</a></li>
+		          <li><a class="dropdown-item text-primary" href="#">Another action</a></li>
+		          <li><a class="dropdown-item text-primary" href="#">Something else here</a></li>
+		        </ul>
+           </div>
+          </ul>
+      </div>
+    </div>
+    <div class="col-md-9 page-home d-block">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h2>Welcome <%=name %></h2><span>ID: <%=id %></span>
+        </div>
+        <div class="card-body">
+          <p>
+            This is the home page of your dashboard. From here, you can manage your recipes, likes,favorites . Use the sidebar to navigate to the different sections of the dashboard.
+          </p>
+          <p>
+            You can also use the buttons below to quickly access some of the most common tasks.
+          </p>
+          <div class="d-flex justify-content-between">
+            <a href="#" class="btn btn-primary mb-3"  data-bs-toggle="modal" data-bs-target="#exampleModal">Add a New Recipe</a>
+            
+          </div>
+          <div class="row">
+            <div class="col-md-4 mb-4">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h5 class="card-title">Total Recipes</h5>
+                  <h6 class="card-subtitle mb-2 text-muted"><%=recipes.length%></h6>
+                  <p class="card-text">
+                    This is the total number of recipes..
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-4">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h5 class="card-title">Total likes</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">8</h6>
+                  <p class="card-text">
+                    This is the total number of likes.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-4">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h5 class="card-title">Favorite</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">32</h6>
+                  <p class="card-text">
+                    This is the total number of your favorite recipe.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-9 page-recipe d-none  overflow-auto h-50" id="page-recipe"  style="background-color:#d0d0d0">
+      <%- include('./recipecomponent'); %>
+    </div>
+
+    <div class="col-md-9 page-community d-none "   style="background-color:#d0d0d0">
+      <%- include('./communitycomponent'); %>
+    </div>
+
+  </div>    
+</div>
+
+
+
+<%# This is a Modal for recipe %>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+ <form action="/recipe/createrecipe" method="POST">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title fs-5" id="exampleModalLabel">New Recipe</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+            <div class="col"> 
+                <label for="isPrivate">Privacy:</label>
+                <select id="isPrivate" name="isPrivate">
+                 <option value="false">Public</option>
+                 <option value="true">Private</option>
+                </select> 
+            </div> 
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="formGroupExampleInput2" class="form-label">Recipe name:</label>          
+                <input
+                  type="text"
+                  id="formGroupExampleInput2"
+                  name="recipename"
+                  class="form-control"
+                  placeholder=""
+                  required
+                  value="<%= typeof recipename != 'undefined' ? recipename : '' %>"
+                />
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="mb-3">
+                <label for="formGroupExampleInput2" class="form-label">Prep Time:</label>
+                <input
+                  type="text"
+                  id="formGroupExampleInput2"
+                  name="preptime"
+                  class="form-control"
+                  placeholder=""
+                  required
+                  value="<%= typeof preptime != 'undefined' ? preptime : '' %>"
+                />
+
+              </div>
+            </div>
+             <div class="col-3">
+              <div class="mb-3">
+                <label for="formGroupExampleInput2" class="form-label">Cook Time:</label>
+                 <input
+                  type="text"
+                  id="formGroupExampleInput2"
+                  name="cooktime"
+                  class="form-control"
+                  placeholder=""
+                  required
+                  value="<%= typeof cooktime != 'undefined' ? cooktime : '' %>"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+             <div class="col">
+              <div class="mb-3">
+                <label for="formGroupExampleInput2" class="form-label">Description:</label>
+                 <input
+                  type="text"
+                  id="formGroupExampleInput2"
+                  name="description"
+                  class="form-control"
+                  placeholder=""
+                  required
+                  value="<%= typeof description != 'undefined' ? description : '' %>"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-6">
+                <div class="row">
+                    <div class="col-sm">
+                     <div class="mb-3">
+                       <label for="formGroupExampleInput2" class="form-label">Serving:</label>
+                        <input
+                         type="number"
+                         id="formGroupExampleInput2"
+                         name="serving"
+                         class="form-control"
+                         placeholder=""
+                         required
+                         value="<%= typeof serving != 'undefined' ? serving : '' %>"
+                       />
+                     </div>
+                   </div>
+                    <div class="col-sm">
+                     <div class="mb-3">
+                       <label for="formGroupExampleInput2" class="form-label">Difficulty:</label>
+                        <select class="form-control" id="difficulty" name="difficulty">
+                         <option value="Easy">Easy</option>
+                         <option value="Medium">Medium</option>
+                         <option value="Hard">Hard</option>
+                        </select> 
+                     </div>
+                   </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm">
+                    <label for="formGroupExampleInput2" class="form-label">Ingredients(follow):</label>
+                    <textarea class="form-control"
+                     name="ingredients"
+                     placeholder="2 cup of sugar, 5 tbsp. salt,"
+                     required
+                     style="height:134px"></textarea>
+                  </div>
+                </div>
+              </div>
+               <div class="col-6">
+                 <div class="mb-3">
+                  <label for="formGroupExampleInput2" class="form-label">Procedure(follow):</label>
+                  <textarea class="form-control" style="height:220px"
+                    name="instructions"
+                    placeholder="Rinse the vegetable          Slice the vegetable                 Cook it" required></textarea>
+                    
+                 </div>
+               </div>
+          </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+ </form> 
+</div>
+
+
+<script>
+const homeLink = document.getElementById("home-link");
+const recipeLink = document.getElementById("recipe-link");
+const communityLink = document.getElementById("community-link");
+
+homeLink.addEventListener("click", function() {
+  homeLink.classList.add("active");
+  recipeLink.classList.remove("active");
+  communityLink.classList.remove("active");
+});
+
+recipeLink.addEventListener("click", function() {
+  homeLink.classList.remove("active");
+  recipeLink.classList.add("active");
+  communityLink.classList.remove("active");
+});
+
+communityLink.addEventListener("click", function() {
+  homeLink.classList.remove("active");
+  recipeLink.classList.remove("active");
+  communityLink.classList.add("active");
+});
+
+
+
+const pageLinks = document.querySelectorAll('.nav-link');
+pageLinks.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const targetPage = link.dataset.target;
+    const currentPage = document.querySelector('.d-block');
+
+    currentPage.classList.remove('d-block');
+    currentPage.classList.add('d-none');
+
+    const target = document.querySelector(`.${targetPage}`);
+    target.classList.remove('d-none');
+    target.classList.add('d-block');
+
+
+  });
+});
+
+
+
+
+</script>

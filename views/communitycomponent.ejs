@@ -1,0 +1,158 @@
+<div class="recipe-wrapper">
+  <div class="row">
+    <div class="col-9">
+        <div class="mb-3 mt-3">          
+            <input
+                  type="text"
+                  id="search"
+                  name="recipename"
+                  class="form-control"
+                  placeholder=""
+                  onkeyup="search()"
+            />
+        </div>
+    </div>
+    <div class="col-3">
+      <div class="mb-3 mt-3">
+           <button type="button" class="btn btn-primary" id="search-button" >Search</button>
+      </div>
+    </div>
+             
+  </div>
+
+ <div class="row all-recipe" > 
+  <% if(publicRecipes!=''){ %>
+     <div class="col" id="recipe-list" >
+        <% for(var i = 0; i < publicRecipes.length; i++) {%>
+           <div class="card-body mb-2 recipe" style="background-color:white; border: 1px solid #c2c2c2; padding: 10px;">
+               <p> Recipe created by:<strong> <%= publicRecipes[i].userName %></strong> </p>
+                <h2><%= publicRecipes[i].recipename %></h2>
+                <ul class="list-unstyled">
+                 <li class="mb-2"><strong>Prep Time: </strong><%= publicRecipes[i].preptime %></li>
+                 <li class="mb-2"><strong>Cook Time: </strong><%= publicRecipes[i].cooktime %></li>
+                 <li class="mb-2"><strong>Servings: </strong><%= publicRecipes[i].serving %></li>
+                 <li class="mb-2"><strong>Difficulty: </strong><%= publicRecipes[i].difficulty %></li>
+                </ul>
+                 <p>
+               <%= publicRecipes[i].description %>
+             </p>
+             <% if (publicRecipes[i].ingredients && publicRecipes[i].ingredients.length > 0) { %>
+               <h5 class="mb-4">Ingredients:</h5>
+               <ul>
+                 <% for (var j = 0; j < publicRecipes[i].ingredients.length; j++) { %>
+                   <li><%= publicRecipes[i].ingredients[j] %></li>
+                 <% } %>
+               </ul>
+             <% } else { %>
+               <p>Ingredients not available</p>
+             <% } %>
+
+             <% if (publicRecipes[i].instructions && publicRecipes[i].instructions.length > 0) { %>
+               <h5 class="mb-4">Instructions:</h5>
+               <Ol>
+                 <% for (var j = 0; j < publicRecipes[i].instructions.length; j++) { %>
+                   <li><%= publicRecipes[i].instructions[j] %></li>
+                 <% } %>
+               </Ol>
+             <% } else { %>
+               <p>Instructions not available</p>
+             <% } %>
+                 <div class="d-flex align-items-center ">      
+                  <button  type="button"
+                   class="btn btn-primary <%= publicRecipes[i].likeStatuss%>" id="like-button"  data-recipe_id="<%= publicRecipes[i]._id %>"><%=publicRecipes[i].likeStatus %>
+                  </button>   
+                  <p class="countlike ml-2 mr-2"><%= publicRecipes[i].like.length %></p>
+                  
+                 <button type="button" class="btn btn-secondary " id="favorite-button">Favorite</button>
+               </div>
+           </div>
+       <% } %>
+     </div> 
+  <% } else{ %>
+    <h1>No Recipes</h1>
+  <% }%>
+</div>
+</div>
+
+
+<script>
+
+const likeBtns = document.querySelectorAll('#like-button');
+likeBtns.forEach(btn => {
+    btn.addEventListener('click', async e => {
+        const recipe_id = e.target.dataset.recipe_id;  
+        const countEl = e.target.parentNode.querySelector('.countlike');
+        let count = parseInt(countEl.innerHTML);  
+        try {
+            if(e.target.classList.contains('like-btn')) {
+                
+                const response = await fetch(`/like/newlikes`, {
+                    method: 'POST',
+                    body: JSON.stringify({ recipe_id: recipe_id }),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                console.log("This is like ")
+                const data = await response.json();
+                console.log("This is data "+data.message)
+                 if (data.message) {
+
+                    e.target.innerHTML = 'Unlike';
+                    e.target.classList.add('unlike-btn');
+                    e.target.classList.remove('like-btn');
+                      count++;
+                    countEl.innerHTML = count;  
+
+                }
+            } else {
+                const response = await fetch(`/like/newlikes`, {
+                    method: 'POST',
+                    body: JSON.stringify({ recipe_id: recipe_id }),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                console.log("This is unlike ")
+                const data = await response.json();
+                 console.log("This is data "+data.message)
+                 if (data.message) {
+                    e.target.innerHTML = 'Like';
+                    e.target.classList.add('like-btn');
+                    e.target.classList.remove('unlike-btn');
+                      count--;
+                    countEl.innerHTML = count;
+                    
+                }
+            }
+  
+              
+            
+        } catch (err) {
+            console.log(err);
+        }
+    });
+});
+
+
+
+const search=()=>{
+
+  let searchbox= document.getElementById("search").value.toUpperCase();
+  let storerecipe =document.getElementById("recipe-list");
+  let recipe=document.querySelectorAll(".recipe");
+  let rname=storerecipe.getElementsByTagName("h2");
+
+  for(var i=0;i<rname.length;i++){
+     let match=recipe[i].getElementsByTagName("h2")[0];
+
+     if(match){
+         let textvalue=match.textContent|| match.innerHTML;
+         if(textvalue.toUpperCase().indexOf(searchbox)>-1){
+             recipe[i].style.display="";
+         }else{
+              recipe[i].style.display="none";
+         }
+
+     }
+  }
+}
+
+</script>
+

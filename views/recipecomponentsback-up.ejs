@@ -1,0 +1,50 @@
+<div class="recipe-card ">
+    <% if (recipes.length > 0) { %>
+     <% for (let i = 0; i < recipes.length; i++) { %>
+      <div class="card-body mb-2"  style="  padding: 10px;">
+         <button class="btn btn-primary btn-block" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample<%=i%>" aria-expanded="false" aria-controls="collapseExample<%=i%>">
+         <%= recipes[i].recipename %>
+         </button>
+
+         <div class="collapse" id="collapseExample<%=i%>">
+           <div class="card card-body"> 
+             <h2><%= recipes[i].recipename %></h2>
+             <ul class="list-unstyled">
+               <li class="mb-2"><strong>Prep Time:</strong><%= recipes[i].preptime %></li>
+               <li class="mb-2"><strong>Cook Time:</strong><%= recipes[i].cooktime %></li>
+               <li class="mb-2"><strong>Servings:</strong><%= recipes[i].serving %></li>
+               <li class="mb-2"><strong>Difficulty:</strong><%= recipes[i].difficulty%></li>
+             </ul>
+             <p>
+               <%= recipes[i].description %>
+             </p>
+             <% if (recipes[i].ingredients && recipes[i].ingredients.length > 0) { %>
+               <h3 class="mb-4">Ingredients:</h3>
+               <ul>
+                 <% for (var j = 0; j < recipes[i].ingredients.length; j++) { %>
+                   <li><%= recipes[i].ingredients[j] %></li>
+                 <% } %>
+               </ul>
+             <% } else { %>
+               <p>Ingredients not available</p>
+             <% } %>
+
+             <% if (recipes[i].instructions && recipes[i].instructions.length > 0) { %>
+               <h3 class="mb-4">Instructions:</h3>
+               <Ol>
+                 <% for (var j = 0; j < recipes[i].instructions.length; j++) { %>
+                   <li><%= recipes[i].instructions[j] %></li>
+                 <% } %>
+               </Ol>
+             <% } else { %>
+               <p>Instructions not available</p>
+             <% } %>
+           </div>
+         </div>
+      </div>
+     <% } %>
+    <%}else{ %>
+         <h1>No recipe available</h1>
+    <% } %>
+  </div>  
+
