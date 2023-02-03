@@ -21,7 +21,6 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
           path: 'user_id'
         }})
         .populate('user', 'name');
-
         for(var i = 0; i < publicRecipes.length; i++) {
           publicRecipes[i].userName = publicRecipes[i].user ? publicRecipes[i].user.name : 'Deleted User';
                publicRecipes[i].likeStatus = "Like";
@@ -34,7 +33,7 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
                    break;
                  }
                }
-               console.log("You should "+publicRecipes[i].likeStatus);
+              // console.log("You should "+publicRecipes[i].likeStatus);
         }
 
         res.render('dashboard', {
