@@ -4,6 +4,9 @@ The purpose of the project is to create a recipe blog that allows users to creat
 
 #Project view
 ![1](https://raw.githubusercontent.com/dinvoid/github-asset/main/readmerecipe.png)
+![2](https://raw.githubusercontent.com/dinvoid/github-asset/main/readmerecipe1.png)
+![3](https://raw.githubusercontent.com/dinvoid/github-asset/main/readmerecipe3.png)
+![4](https://raw.githubusercontent.com/dinvoid/github-asset/main/readmerecipe4.png)
 
 #Key Features and Functionalities
 
