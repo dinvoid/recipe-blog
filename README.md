@@ -1,6 +1,6 @@
 # Project Description
 
-The purpose of the project is to create a recipe blog that allows users to create and share recipes with a community of users. The blog is built with a login system using Passport.js and users can add recipes that can be set to either private or public. The public recipes are visible to the community and other users can like and unlike the recipes. The blog also has features for users to view, delete, and update their recipes. The community page displays all the public recipes available on the blog, providing a platform for users to discover and share new recipes with each other. The blog aims to bring together a community of food enthusiasts and provide a space for them to share and discover new recipes.
+The purpose of the project is to create a recipe blog that allows users to create and share recipes with a community of users. The blog is built with a login system using Passport.js and users can add recipes that can be set to either private or public. The public recipes are visible to the community and other users can like and unlike the recipes. The blog also has features for users to view, delete their recipes. The community page displays all the public recipes available on the blog, providing a platform for users to discover and share new recipes with each other. The blog aims to bring together a community of food enthusiasts and provide a space for them to share and discover new recipes.
 
 #Project view
 ![1](https://raw.githubusercontent.com/dinvoid/github-asset/main/readmerecipe.png)
